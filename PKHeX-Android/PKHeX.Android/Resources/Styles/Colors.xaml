@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Primary Palette -->
+    <Color x:Key="Primary">#BB86FC</Color>
+    <Color x:Key="PrimaryDark">#9965D0</Color>
+    <Color x:Key="Secondary">#03DAC6</Color>
+    <Color x:Key="Error">#CF6679</Color>
+    <Color x:Key="Surface">#1E1E1E</Color>
+    <Color x:Key="Background">#121212</Color>
+    <Color x:Key="OnBackground">#E1E1E1</Color>
+    <Color x:Key="OnSurface">#FFFFFF</Color>
+    <Color x:Key="Outline">#333333</Color>
+
+    <!-- Stat Colors -->
+    <Color x:Key="StatHP">#FF8888</Color>
+    <Color x:Key="StatATK">#FFAA88</Color>
+    <Color x:Key="StatDEF">#FFFF88</Color>
+    <Color x:Key="StatSPA">#88AAFF</Color>
+    <Color x:Key="StatSPD">#88FF88</Color>
+    <Color x:Key="StatSPE">#FF88FF</Color>
+
+    <!-- Semantic -->
+    <Color x:Key="LegalGreen">#2E7D32</Color>
+    <Color x:Key="IllegalRed">#C62828</Color>
+    <Color x:Key="ShinyGold">#FFD700</Color>
+
+</ResourceDictionary>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" fill="#5C2D91"/>
+  <circle cx="64" cy="64" r="40" fill="white" stroke="#BB86FC" stroke-width="4"/>
+  <circle cx="64" cy="64" r="16" fill="#5C2D91"/>
+  <line x1="24" y1="64" x2="104" y2="64" stroke="#5C2D91" stroke-width="6"/>
+  <text x="64" y="115" text-anchor="middle" fill="white" font-size="14" font-family="sans-serif">PKHeX</text>
+</svg>
