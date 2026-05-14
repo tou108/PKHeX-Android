@@ -1,4 +1,3 @@
-using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using PKHeX.Android.Pages;
 using PKHeX.Android.Services;
@@ -14,23 +13,17 @@ public static class MauiProgram
 
         builder
             .UseMauiApp<App>()
-            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        // Services
         builder.Services.AddSingleton<SaveFileService>();
-
-        // ViewModels
         builder.Services.AddSingleton<MainViewModel>();
         builder.Services.AddTransient<SaveEditorViewModel>();
         builder.Services.AddTransient<PokemonEditorViewModel>();
         builder.Services.AddTransient<BoxViewModel>();
-
-        // Pages
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddTransient<SaveEditorPage>();
         builder.Services.AddTransient<PokemonEditorPage>();
