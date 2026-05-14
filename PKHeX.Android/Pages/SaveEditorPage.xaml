@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Android.ViewModels"
+             x:Class="PKHeX.Android.Pages.SaveEditorPage"
+             x:DataType="vm:SaveEditorViewModel"
+             Title="セーブ編集"
+             BackgroundColor="#121212">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="True" />
+    </Shell.BackButtonBehavior>
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16">
+
+        <!-- Header -->
+        <Frame Grid.Row="0"
+               BackgroundColor="#1E1E1E"
+               BorderColor="#333333"
+               CornerRadius="12"
+               Padding="16"
+               Margin="0,0,0,12">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="{Binding TrainerName, StringFormat='トレーナー: {0}'}"
+                           TextColor="#BB86FC" FontSize="18" FontAttributes="Bold" />
+                    <Label Text="{Binding GameVersion, StringFormat='ゲーム: {0}'}"
+                           TextColor="#AAAAAA" FontSize="14" />
+                    <Label Text="{Binding PlayTime, StringFormat='プレイ時間: {0}'}"
+                           TextColor="#AAAAAA" FontSize="13" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="End">
+                    <Label Text="{Binding Tid, StringFormat='TID: {0}'}"
+                           TextColor="#888888" FontSize="12" />
+                    <Label Text="{Binding Sid, StringFormat='SID: {0}'}"
+                           TextColor="#888888" FontSize="12" />
+                </VerticalStackLayout>
+            </Grid>
+        </Frame>
+
+        <!-- Scrollable Form -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="16" Padding="0,4">
+
+                <!-- Trainer Info Section -->
+                <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="12" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="トレーナー情報" TextColor="#BB86FC"
+                               FontSize="16" FontAttributes="Bold" />
+
+                        <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="12">
+                            <Label Grid.Row="0" Grid.Column="0" Text="名前"
+                                   TextColor="#AAAAAA" VerticalOptions="Center" />
+                            <Entry Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding TrainerName}"
+                                   BackgroundColor="#2A2A2A" TextColor="White"
+                                   PlaceholderColor="#666666" MaxLength="12" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="所持金"
+                                   TextColor="#AAAAAA" VerticalOptions="Center" />
+                            <Entry Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding Money}"
+                                   Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Box View Button -->
+                <Button Text="📦  ボックスを見る / 編集する"
+                        Clicked="OnViewBoxClicked"
+                        BackgroundColor="#03DAC6"
+                        TextColor="#000000"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="12"
+                        HeightRequest="52" />
+
+                <!-- Quick Edit Section -->
+                <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="12" Padding="16">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="クイック編集" TextColor="#BB86FC"
+                               FontSize="16" FontAttributes="Bold" />
+
+                        <Button Text="🎒  全アイテムを最大入手"
+                                Command="{Binding GiveAllItemsCommand}"
+                                BackgroundColor="#3A3A5C"
+                                TextColor="White"
+                                CornerRadius="8"
+                                HeightRequest="44" />
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom Buttons -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,12,0,0">
+            <Button Grid.Column="0"
+                    Text="💾  保存"
+                    Command="{Binding SaveChangesCommand}"
+                    BackgroundColor="#BB86FC"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="48" />
+            <Button Grid.Column="1"
+                    Text="📤  エクスポート"
+                    Command="{Binding ExportSaveCommand}"
+                    BackgroundColor="#CF6679"
+                    TextColor="White"
+                    CornerRadius="12"
+                    HeightRequest="48" />
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:conv="clr-namespace:PKHeX.Android.Converters">
+
+    <!-- Converters (registered globally) -->
+    <conv:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+    <conv:LegalityColorConverter x:Key="LegalityColorConverter" />
+    <conv:LegalityTextConverter x:Key="LegalityTextConverter" />
+    <conv:BoolToPartyLabelConverter x:Key="BoolToPartyLabelConverter" />
+    <conv:BoxCountConverter x:Key="BoxCountConverter" />
+
+    <!-- Global implicit styles -->
+    <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{StaticResource Background}" />
+    </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource OnBackground}" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+    </Style>
+
+    <Style TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="#2A2A2A" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="PlaceholderColor" Value="#666666" />
+    </Style>
+
+    <Style TargetType="Picker">
+        <Setter Property="BackgroundColor" Value="#2A2A2A" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="TitleColor" Value="#888888" />
+    </Style>
+
+    <Style TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+        <Setter Property="BorderColor" Value="{StaticResource Outline}" />
+        <Setter Property="HasShadow" Value="False" />
+    </Style>
+
+    <Style TargetType="Shell" ApplyToDerivedTypes="True">
+        <Setter Property="Shell.BackgroundColor" Value="#1E1E1E" />
+        <Setter Property="Shell.ForegroundColor" Value="#BB86FC" />
+        <Setter Property="Shell.TitleColor" Value="White" />
+        <Setter Property="Shell.TabBarBackgroundColor" Value="#1E1E1E" />
+        <Setter Property="Shell.TabBarForegroundColor" Value="#BB86FC" />
+        <Setter Property="Shell.TabBarUnselectedColor" Value="#888888" />
+        <Setter Property="Shell.TabBarTitleColor" Value="#BB86FC" />
+        <Setter Property="Shell.NavBarHasShadow" Value="False" />
+    </Style>
+
+</ResourceDictionary>

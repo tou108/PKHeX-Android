@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Android.ViewModels"
+             x:Class="PKHeX.Android.Pages.PokemonEditorPage"
+             x:DataType="vm:PokemonEditorViewModel"
+             Title="ポケモン編集"
+             BackgroundColor="#121212">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="True" />
+    </Shell.BackButtonBehavior>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Pokemon Header -->
+        <Frame Grid.Row="0"
+               BackgroundColor="#1E1E1E"
+               BorderColor="#333333"
+               CornerRadius="0"
+               Padding="16,12">
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                <Label Grid.Row="0" Grid.Column="0"
+                       Text="{Binding SpeciesName}"
+                       TextColor="#BB86FC"
+                       FontSize="22"
+                       FontAttributes="Bold" />
+                <Label Grid.Row="0" Grid.Column="1"
+                       Text="{Binding ShinyIndicator}"
+                       FontSize="22" />
+
+                <Label Grid.Row="1" Grid.Column="0"
+                       Text="{Binding Nickname, StringFormat='「{0}」'}"
+                       TextColor="#AAAAAA"
+                       FontSize="14" />
+
+                <!-- Legality Badge -->
+                <Frame Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                       BackgroundColor="{Binding IsLegal, Converter={StaticResource LegalityColorConverter}}"
+                       CornerRadius="8"
+                       Padding="8,4"
+                       VerticalOptions="Center">
+                    <Label Text="{Binding IsLegal, Converter={StaticResource LegalityTextConverter}}"
+                           TextColor="White"
+                           FontSize="12"
+                           FontAttributes="Bold" />
+                </Frame>
+            </Grid>
+        </Frame>
+
+        <!-- Scrollable Editor Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="12" Padding="12">
+
+                <!-- Quick Actions -->
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <Button Grid.Column="0" Text="⭐ MAX"
+                            Command="{Binding ApplyMaxStatsCommand}"
+                            BackgroundColor="#3A3A5C" TextColor="White"
+                            CornerRadius="8" HeightRequest="40" FontSize="12" />
+                    <Button Grid.Column="1" Text="✨ 色違い"
+                            Command="{Binding MakeShinyCommand}"
+                            BackgroundColor="#5C3A5C" TextColor="White"
+                            CornerRadius="8" HeightRequest="40" FontSize="12" />
+                    <Button Grid.Column="2" Text="⚖️ 合法化"
+                            Command="{Binding FixLegalityCommand}"
+                            BackgroundColor="#3A5C3A" TextColor="White"
+                            CornerRadius="8" HeightRequest="40" FontSize="12" />
+                </Grid>
+
+                <!-- Basic Info -->
+                <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="12" Padding="14">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="基本情報" TextColor="#BB86FC" FontSize="15" FontAttributes="Bold" />
+
+                        <Grid ColumnDefinitions="100,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="10">
+                            <Label Grid.Row="0" Grid.Column="0" Text="ニックネーム"
+                                   TextColor="#AAAAAA" VerticalOptions="Center" FontSize="13" />
+                            <Entry Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding Nickname}"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="13" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="OT"
+                                   TextColor="#AAAAAA" VerticalOptions="Center" FontSize="13" />
+                            <Entry Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding OtName}"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="13" />
+
+                            <Label Grid.Row="2" Grid.Column="0" Text="レベル"
+                                   TextColor="#AAAAAA" VerticalOptions="Center" FontSize="13" />
+                            <Entry Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding Level}"
+                                   Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="13" />
+
+                            <Label Grid.Row="3" Grid.Column="0" Text="性格"
+                                   TextColor="#AAAAAA" VerticalOptions="Center" FontSize="13" />
+                            <Picker Grid.Row="3" Grid.Column="1"
+                                    ItemsSource="{Binding NatureNames}"
+                                    SelectedIndex="{Binding Nature}"
+                                    BackgroundColor="#2A2A2A" TextColor="White" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- IVs -->
+                <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="12" Padding="14">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="個体値 (IV)" TextColor="#BB86FC" FontSize="15" FontAttributes="Bold" />
+
+                        <Grid ColumnDefinitions="60,*,60,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="8">
+                            <Label Grid.Row="0" Grid.Column="0" Text="HP" TextColor="#FF8888" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="0" Grid.Column="1" Text="{Binding HpIv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+                            <Label Grid.Row="0" Grid.Column="2" Text="ATK" TextColor="#FFAA88" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="0" Grid.Column="3" Text="{Binding AtkIv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="DEF" TextColor="#FFFF88" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="1" Grid.Column="1" Text="{Binding DefIv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+                            <Label Grid.Row="1" Grid.Column="2" Text="SP.A" TextColor="#88AAFF" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="1" Grid.Column="3" Text="{Binding SpaIv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+
+                            <Label Grid.Row="2" Grid.Column="0" Text="SP.D" TextColor="#88FF88" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="2" Grid.Column="1" Text="{Binding SpdIv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+                            <Label Grid.Row="2" Grid.Column="2" Text="SPE" TextColor="#FF88FF" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="2" Grid.Column="3" Text="{Binding SpeIv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- EVs -->
+                <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="12" Padding="14">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="努力値 (EV)" TextColor="#BB86FC" FontSize="15" FontAttributes="Bold" />
+
+                        <Grid ColumnDefinitions="60,*,60,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="8">
+                            <Label Grid.Row="0" Grid.Column="0" Text="HP" TextColor="#FF8888" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="0" Grid.Column="1" Text="{Binding HpEv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+                            <Label Grid.Row="0" Grid.Column="2" Text="ATK" TextColor="#FFAA88" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="0" Grid.Column="3" Text="{Binding AtkEv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="DEF" TextColor="#FFFF88" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="1" Grid.Column="1" Text="{Binding DefEv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+                            <Label Grid.Row="1" Grid.Column="2" Text="SP.A" TextColor="#88AAFF" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="1" Grid.Column="3" Text="{Binding SpaEv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+
+                            <Label Grid.Row="2" Grid.Column="0" Text="SP.D" TextColor="#88FF88" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="2" Grid.Column="1" Text="{Binding SpdEv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+                            <Label Grid.Row="2" Grid.Column="2" Text="SPE" TextColor="#FF88FF" VerticalOptions="Center" FontSize="12" />
+                            <Entry Grid.Row="2" Grid.Column="3" Text="{Binding SpeEv}" Keyboard="Numeric"
+                                   BackgroundColor="#2A2A2A" TextColor="White" FontSize="12" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Moves -->
+                <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="12" Padding="14">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="技" TextColor="#BB86FC" FontSize="15" FontAttributes="Bold" />
+                        <Picker ItemsSource="{Binding MoveNames}" SelectedIndex="{Binding Move1}"
+                                BackgroundColor="#2A2A2A" TextColor="White" Title="技 1" />
+                        <Picker ItemsSource="{Binding MoveNames}" SelectedIndex="{Binding Move2}"
+                                BackgroundColor="#2A2A2A" TextColor="White" Title="技 2" />
+                        <Picker ItemsSource="{Binding MoveNames}" SelectedIndex="{Binding Move3}"
+                                BackgroundColor="#2A2A2A" TextColor="White" Title="技 3" />
+                        <Picker ItemsSource="{Binding MoveNames}" SelectedIndex="{Binding Move4}"
+                                BackgroundColor="#2A2A2A" TextColor="White" Title="技 4" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Legality Report -->
+                <Frame BackgroundColor="#1A1A2E" BorderColor="#333366" CornerRadius="12" Padding="14">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="合法性チェック" TextColor="#BB86FC" FontSize="15" FontAttributes="Bold" />
+                        <Label Text="{Binding LegalityReport}"
+                               TextColor="#CCCCCC"
+                               FontSize="12"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom Buttons -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="12" Padding="12,8">
+            <Button Grid.Column="0"
+                    Text="✅  保存"
+                    Command="{Binding SavePokemonCommand}"
+                    BackgroundColor="#BB86FC"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="48" />
+            <Button Grid.Column="1"
+                    Text="❌  キャンセル"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="#3A3A3A"
+                    TextColor="White"
+                    CornerRadius="12"
+                    HeightRequest="48" />
+        </Grid>
+    </Grid>
+</ContentPage>

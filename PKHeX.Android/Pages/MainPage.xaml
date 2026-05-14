@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Android.ViewModels"
+             x:Class="PKHeX.Android.Pages.MainPage"
+             x:DataType="vm:MainViewModel"
+             Title="PKHeX"
+             BackgroundColor="#121212">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16">
+
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0" Spacing="8" Margin="0,20,0,0">
+            <Label Text="PKHeX"
+                   FontSize="40"
+                   FontAttributes="Bold"
+                   TextColor="#BB86FC"
+                   HorizontalOptions="Center" />
+            <Label Text="Pokémon Save Editor"
+                   FontSize="16"
+                   TextColor="#888888"
+                   HorizontalOptions="Center" />
+            <BoxView HeightRequest="1" Color="#333333" Margin="0,8" />
+        </VerticalStackLayout>
+
+        <!-- Main Content -->
+        <VerticalStackLayout Grid.Row="1"
+                             Spacing="16"
+                             VerticalOptions="Center"
+                             Padding="16,0">
+
+            <!-- Status -->
+            <Frame BackgroundColor="#1E1E1E"
+                   BorderColor="#333333"
+                   CornerRadius="12"
+                   Padding="16">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="{Binding StatusText}"
+                           TextColor="#CCCCCC"
+                           FontSize="14"
+                           HorizontalOptions="Center" />
+                    <Label Text="{Binding GameInfo}"
+                           TextColor="#BB86FC"
+                           FontSize="13"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding IsSaveLoaded}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="{Binding IsLoading}"
+                               Color="#BB86FC"
+                               HorizontalOptions="Center" />
+
+            <!-- Open Save Button -->
+            <Button Text="📂  セーブデータを開く"
+                    Command="{Binding OpenSaveFileCommand}"
+                    BackgroundColor="#BB86FC"
+                    TextColor="White"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="56"
+                    IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
+
+            <!-- Edit Save Button (visible when loaded) -->
+            <Button Text="✏️  セーブデータを編集"
+                    Command="{Binding OpenSaveEditorCommand}"
+                    BackgroundColor="#03DAC6"
+                    TextColor="#000000"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="56"
+                    IsVisible="{Binding IsSaveLoaded}" />
+
+            <!-- Export Button -->
+            <Button Text="💾  エクスポート"
+                    Command="{Binding ExportSaveFileCommand}"
+                    BackgroundColor="#CF6679"
+                    TextColor="White"
+                    FontSize="16"
+                    CornerRadius="12"
+                    HeightRequest="48"
+                    IsVisible="{Binding IsSaveLoaded}" />
+        </VerticalStackLayout>
+
+        <!-- Footer -->
+        <Label Grid.Row="2"
+               Text="PKHeX by Kaphotics | Android UI by MAUI"
+               TextColor="#555555"
+               FontSize="11"
+               HorizontalOptions="Center"
+               Margin="0,0,0,8" />
+
+    </Grid>
+</ContentPage>

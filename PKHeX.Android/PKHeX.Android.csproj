@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>PKHeX.Android</RootNamespace>
+    <AssemblyName>PKHeX</AssemblyName>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- Android App Identity -->
+    <ApplicationId>com.projectpokemon.pkhex</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>26.05.05</ApplicationDisplayVersion>
+
+    <!-- Android Settings -->
+    <SupportedOSPlatformVersion>26</SupportedOSPlatformVersion>
+    <AndroidManifestPlaceholders>appLabel=PKHeX</AndroidManifestPlaceholders>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- App Icon -->
+    <MauiIcon Include="Resources\Images\appicon.svg"
+              ForegroundFile="Resources\Images\appicon_foreground.svg"
+              Color="#5C2D91" />
+
+    <!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\Images\splash.svg"
+                      Color="#5C2D91"
+                      BaseSize="128,128" />
+
+    <!-- Images -->
+    <MauiImage Include="Resources\Images\*.svg" />
+    <MauiImage Include="Resources\Images\*.png" />
+
+    <!-- Fonts -->
+    <MauiFont Include="Resources\Fonts\*.ttf" />
+    <MauiFont Include="Resources\Fonts\*.otf" />
+
+    <!-- Raw Assets -->
+    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PKHeX.Core\PKHeX.Core.csproj" />
+  </ItemGroup>
+
+</Project>
