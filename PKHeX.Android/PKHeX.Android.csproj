@@ -21,7 +21,8 @@
               Color="#5C2D91" />
     <MauiSplashScreen Include="Resources\Images\splash.svg"
                       Color="#5C2D91" BaseSize="128,128" />
-    <MauiImage Include="Resources\Images\*.svg" />
+    <!-- appicon系SVGは上で指定済みなので除外 -->
+    <MauiImage Include="Resources\Images\*.png" />
     <MauiFont Include="Resources\Fonts\*.ttf" />
     <MauiAsset Include="Resources\Raw\**"
                LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
