@@ -129,8 +129,8 @@ public partial class PokemonEditorViewModel : ObservableObject
         IsShiny = pkm.IsShiny;
         Gender = pkm.Gender;
         Form = pkm.Form;
-        Nature = pkm.StatNature;
-        NatureName = _strings.Natures.SafeGet(pkm.StatNature);
+        Nature = (int)pkm.StatNature;  // FIX: StatNature returns Nature enum, cast to int
+        NatureName = _strings.Natures.SafeGet((int)pkm.StatNature);  // FIX: same
         Ability = pkm.Ability;
         AbilityName = _strings.Ability.SafeGet(pkm.Ability);
         HeldItem = pkm.HeldItem;
