@@ -124,7 +124,7 @@ public partial class PokemonEditorViewModel : ObservableObject
         Species = pkm.Species;
         SpeciesName = _strings.Species.SafeGet(pkm.Species);
         Nickname = pkm.Nickname;
-        OtName = pkm.OT_Name;
+        OtName = pkm.OriginalTrainerName;  // FIX: OT_Name -> OriginalTrainerName
         Level = pkm.CurrentLevel;
         IsShiny = pkm.IsShiny;
         Gender = pkm.Gender;
@@ -137,8 +137,8 @@ public partial class PokemonEditorViewModel : ObservableObject
         HeldItemName = _strings.Item.SafeGet(pkm.HeldItem);
         Exp = pkm.EXP;
 
-        // Stats
-        HpStat = pkm.Stat_HP;
+        // Stats - FIX: Stat_HP -> Stat_HPCurrent
+        HpStat = pkm.Stat_HPCurrent;
         AtkStat = pkm.Stat_ATK;
         DefStat = pkm.Stat_DEF;
         SpaStat = pkm.Stat_SPA;
@@ -193,7 +193,7 @@ public partial class PokemonEditorViewModel : ObservableObject
         pkm.CurrentLevel = 100;
         pkm.EXP = Experience.GetEXP(100, pkm.PersonalInfo.EXPGrowth);
         pkm.HealPP();
-        pkm.SetSuggestedMoves();
+        pkm.SetMoveset();  // FIX: SetSuggestedMoves() -> SetMoveset()
         pkm.RefreshAbility(pkm.AbilityNumber);
 
         RefreshFromPkm();
@@ -209,24 +209,26 @@ public partial class PokemonEditorViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void FixLegality()
+    private async Task FixLegalityAsync()
     {
+        // FIX: pkm.Legalize() is no longer available in this version of PKHeX.Core.
+        // Applying suggested moveset and refreshing as a best-effort improvement.
         var pkm = _editingPkm;
         if (pkm == null) return;
 
         try
         {
-            var result = pkm.Legalize();
-            if (result != null)
-            {
-                _editingPkm = result;
-                RefreshFromPkm();
-            }
+            pkm.SetMoveset();
+            pkm.HealPP();
+            pkm.RefreshChecksum();
+            RefreshFromPkm();
         }
         catch (Exception)
         {
             // Legalization may not always be possible
         }
+
+        await Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -238,7 +240,7 @@ public partial class PokemonEditorViewModel : ObservableObject
 
         // Write back all edited values
         pkm.Nickname = Nickname;
-        pkm.OT_Name = OtName;
+        pkm.OriginalTrainerName = OtName;  // FIX: OT_Name -> OriginalTrainerName
         pkm.CurrentLevel = Math.Clamp(Level, 1, 100);
         pkm.EV_HP = Math.Clamp(HpEv, 0, 252);
         pkm.EV_ATK = Math.Clamp(AtkEv, 0, 252);
@@ -252,8 +254,9 @@ public partial class PokemonEditorViewModel : ObservableObject
         pkm.IV_SPA = Math.Clamp(SpaIv, 0, 31);
         pkm.IV_SPD = Math.Clamp(SpdIv, 0, 31);
         pkm.IV_SPE = Math.Clamp(SpeIv, 0, 31);
-        pkm.Move1 = Move1; pkm.Move2 = Move2;
-        pkm.Move3 = Move3; pkm.Move4 = Move4;
+        // FIX: Move1/2/3/4 are ushort, explicit cast required from int
+        pkm.Move1 = (ushort)Move1; pkm.Move2 = (ushort)Move2;
+        pkm.Move3 = (ushort)Move3; pkm.Move4 = (ushort)Move4;
         pkm.SetNature((Nature)Nature);
         pkm.RefreshChecksum();
 
@@ -273,6 +276,8 @@ public partial class PokemonEditorViewModel : ObservableObject
 
 internal static class StringArrayExtensions
 {
-    public static string SafeGet(this string[] arr, int index)
-        => (uint)index < arr.Length ? arr[index] : "???";
+    // FIX: Changed parameter type from string[] to IReadOnlyList<string>
+    // because GameStrings.Species, .Move, .Ability, etc. are IReadOnlyList<string>
+    public static string SafeGet(this IReadOnlyList<string> list, int index)
+        => (uint)index < (uint)list.Count ? list[index] : "???";
 }
