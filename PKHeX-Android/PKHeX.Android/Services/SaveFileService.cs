@@ -119,6 +119,7 @@ public class SaveFileService
     public static string GetLegalityReport(PKM pkm)
     {
         var la = new LegalityAnalysis(pkm);
-        return la.Valid ? "✅ 合法" : $"❌ 違法\n{string.Join("\n", la.Results.Select(r => r.Comment))}";
+        // FIX: CheckResult.Comment no longer exists; use la.Report() extension from LegalityFormatting
+        return la.Valid ? "✅ 合法" : $"❌ 違法\n{la.Report()}";
     }
 }
